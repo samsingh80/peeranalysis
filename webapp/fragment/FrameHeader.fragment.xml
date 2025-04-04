@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt">
+        <tnt:ToolHeader id="toolHeader">
+        <Button
+					id="sideNavigationToggleButton"
+					icon="sap-icon://menu2"
+					type="Transparent"
+					press=".onSideNavButtonPress"
+          class="sideNavigationToggleButton">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" />
+					</layoutData>
+				</Button>
+				<ToolbarSpacer width="20px" />
+              <Image
+                id="logo"
+                src="{imageModel>/path}/../images/logo.png"
+                decorative="true"
+                class="logo"/>
+        </tnt:ToolHeader>
+</core:FragmentDefinition>

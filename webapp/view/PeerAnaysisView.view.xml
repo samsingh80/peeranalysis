@@ -1,0 +1,24 @@
+<mvc:View controllerName="peeranalysis.controller.PeerAnaysisView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+	xmlns:uxap="sap.uxap"
+	xmlns:tnt="sap.tnt"
+    
+    >
+    <Page id="page" title="{i18n>title}">
+
+        <content>
+    <FlexBox direction="Column" class="earningsBox">
+
+            <FlexBox id="chatFlexBox" class="ChatFlexBox">
+                 <core:Fragment fragmentName="peeranalysis.fragment.chatBox" type="XML"/>
+            </FlexBox>
+
+            <FlexBox id="resultFlexBox" class="ResultFlexBox" visible="{chatModel>/visibleResult}">
+                 <core:Fragment fragmentName="peeranalysis.fragment.resultBox" type="XML"/>
+            </FlexBox>
+</FlexBox>
+</content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,19 @@
+<mvc:View controllerName="peeranalysis.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns:tnt="sap.tnt">
+    <tnt:ToolPage id="toolPage">
+        <tnt:header>
+            <core:Fragment fragmentName="peeranalysis.fragment.FrameHeader" type="XML"/>
+        </tnt:header>
+        <tnt:sideContent>
+            <core:Fragment fragmentName="peeranalysis.fragment.FrameSideContent" type="XML"/>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <App id="app"/>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

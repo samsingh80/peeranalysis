@@ -1,0 +1,506 @@
+.sideNavigationToggleButton {
+    border-radius: 8px;
+    background: rgba(0, 122, 255, 0.1);
+  }
+  
+  .sideNavigationToggleButton .sapMBtnIcon {
+    color: #007aff !important;
+  }
+  
+  
+  
+  .sapUiSizeCompact .sapMBtnInner.sapMBtnText {
+    background-color: #007aff !important;
+    color: white !important;
+    border-radius: 8px; /* Optional: Adds rounded corners */
+    /* margin-left: 5px; */
+  }
+  
+  .iconbtns {
+    background-color: #007aff !important;
+  
+  } 
+  
+  .sapMFlexItemAlignAuto {
+    margin-left: 10px;
+  
+  }
+  
+  
+  .logo {
+    height: 40px !important;
+  }
+  
+  .navListIcon .sapTntNLIIcon,
+  .navListIcon .sapMText {
+    color: #007aff !important;
+  }
+  
+  
+  .earningsBox {
+    align-items: center;
+  }
+  .result {
+    border: none;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 10px 1px;
+    background: #ffff !important;
+    width: 100% !important;
+    max-width: 1200px;
+  }
+  .ResultFlexBox {
+    padding: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ChatFlexBox {
+    padding: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ChatBox {
+    border: none;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 10px 1px;
+    background: hsl(0, 0%, 100%) !important;
+    width: 100% !important;
+    padding: 3rem;
+    max-width: 1200px;
+    background-color: lightgray;
+  }
+  
+  .dynamicChatBox {
+    padding: 0.3rem;
+  }
+  
+  .agentBox {
+    padding: 6px !important;
+  }
+  
+  .agentBox .sapMFlexItem {
+    max-width: 95% !important;
+    width: max-content !important;
+  }
+  
+  .userBox {
+    padding: 6px !important;
+  }
+  
+  .agentBox:hover .messageEmotions {
+    display: flex;
+  }
+  
+  .agentMessage {
+    padding: 10px;
+    border-radius: 8px 8px 8px 0px;
+    margin-left: 4px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    overflow-wrap: break-word;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+    line-height: 1.25rem;
+    background: #ecf5ff;
+  }
+  
+  .suggestionMessage {
+    background-color: #e6f2ff;
+    padding: 10px 10px;
+    border-radius: 8px 8px 8px 0px;
+    margin-left: 4px;
+  }
+  
+  .userMessage {
+    margin: 4px 4px 4px 30px;
+    text-align: left;
+    border-radius: 8px 8px 0px 8px;
+    background-color: #afed99;
+    padding: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+    line-height: 1.25rem;
+  }
+  
+  .dynamicChatBox {
+    padding: 0.3rem;
+  }
+  
+  .chatFlex {
+    flex: 1 1 auto !important;
+    overflow: scroll !important;
+  }
+  
+  .chatFooter {
+    flex-shrink: 0;
+    justify-self: flex-end;
+    padding: 8px;
+    width: 100% !important;
+  }
+  
+  .chatFooter .sapMFlexItem {
+    width: 100% !important;
+  }
+  
+  .chatFeed {
+    padding: 1rem !important;
+  }
+  
+  .chatFeed .sapMFeedIn {
+    /* background-color: #2b0d85 !important; */
+    padding: 0 0 0 0 !important;
+  }
+  
+  /* Joule CSS */
+  .chatFeed .sapMFeedIn .sapMFeedInContainer {
+    width: Fill (384px) px;
+    height: Hug (36px) px;
+    background-color: #fff !important;
+    border-radius: 8px;
+    opacity: 0px;
+    border: 2px solid #0064d9;
+    background: #ffffff;
+    box-shadow: 2px 2px 4px rgba(85, 107, 130, 0.3) !important;
+    outline: 0.1rem solid #121c84 !important;
+    box-shadow: 0px 4px 8px 0px #1b90ff29;
+    box-shadow: 0px 0px 2px 0px #1b90ff29;
+    padding: 4px 0px 4px 0px;
+    gap: 0px;
+  }
+  /* Joule CSS */
+  
+  .sapMFeedIn .sapMBtn {
+    right: -1rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Joule CSS */
+  .chatFeed.sapMFeedIn .sapMBtnInner {
+    width: 45px;
+    height: 45px;
+    padding: 0px 6px 0px 6px;
+    gap: 6px;
+    border-radius: 24px;
+    background: #0070f2;
+    border-top: 1px solid #0070f2;
+    opacity: 0px;
+  }
+  /* Joule CSS */
+  
+  .chatFeed .sapMFeedIn .sapMBtnIcon {
+    color: var(--color-snow-always-light) !important;
+    line-height: 2.125rem !important;
+  }
+  
+  .chatFeed
+    .sapMFeedIn
+    .sapMFeedInContainer
+    .sapMTextArea
+    .sapMInputBaseContentWrapper {
+    box-shadow: 2px 2px 4px rgba(85, 107, 130, 0.3) !important;
+    background: #fff !important;
+    outline: 0.1rem solid #121c84 !important;
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scroll {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+  
+  .dasTextAreaInput {
+    padding: 4px 0px 4px 0px;
+    gap: 0px;
+    border-radius: 8px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .dasTextAreaInput:not(:focus-within):not(:focus):not(:hover),
+  .dasTextAreaInput:not(:focus-within):not(:focus):not(:hover) {
+    background-color: var(--sapField_Background);
+    background-position: center bottom 0;
+  }
+  
+  .dasTextAreaInput:not(:focus-within):not(:focus),
+  .dasTextAreaInput:not(:focus-within):not(:focus) {
+    background-position: center bottom 0;
+    background-size: 100% 2px;
+    background-repeat: repeat-x;
+    background-image: var(
+      --dasTextArea_BackgroundImage,
+      var(--_ui5_textarea_background_image)
+    );
+  }
+  
+  /* {
+      box-shadow: var(--dasContent_Shadow2, var(--sapContent_Interaction_Shadow));
+      border-color: var(--dasContent_Hover_BorderColor, var(--sapField_Hover_BorderColor, #333));
+  } */
+  
+  .dasTextAreaInput:focus-within,
+  /* .dasTextAreaInput:hover {
+    border-width: 0.125rem;
+    border-color: var(
+      --dasContent_FocusColor,
+      var(--sapContent_FocusColor, #333)
+    );
+    border-style: solid;
+    box-shadow: var(
+      --dasFooter_ButtonShadow,
+      var(--sapContent_Interaction_Shadow)
+    );
+  } */  /* remove this comment to have border in the flex box */
+  
+  .chattextarea {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 5px 0px 7px 8px;
+    gap: 10px;
+  
+    max-width: 100%;
+    /* border: none !important; */
+    /* border-width: 2rem; */
+    border:#0070f2
+  }
+  
+  .chattextarea .sapMInputBaseContentWrapper {
+    /* border: none !important; */
+    box-shadow: none !important;
+    background: none !important;
+    border:#0070f2
+  
+  }
+  
+  .chattextarea
+    .sapMInputBaseContentWrapper
+    .sapMInputBaseInner:not(.sapMInputBaseReadonlyWrapper):not(
+      .sapMInputBaseContentWrapperState
+    ):focus {
+    /* border: none !important; */
+    border:#0070f2
+  }
+  
+  .chattextarea
+    .sapMInputBaseContentWrapper:not(.sapMInputBaseDisabledWrapper)::before {
+    /* border: none !important; */
+    border:#0070f2
+  }
+  
+  .dasChatInputSubmitButtonDisabled {
+    margin-left: 4px;
+    opacity: 0.6;
+  }
+  
+  .dasChatInputSubmitButton {
+    display: inline-block;
+    border-radius: 50%;
+    box-shadow: 0 0 2px #888;
+    padding: 0.5em 0.6em;
+    margin-left: 5px;
+    background-color: var(--sapButton_Emphasized_Background, #0070f2);
+    color: var(--sapButton_Emphasized_TextColor, #ffffff);
+    border-color: var(--sapButton_Emphasized_BorderColor, #0070f2);
+    --sapContent_NonInteractiveIconColor: var(
+      --sapButton_Emphasized_TextColor,
+      #ffffff
+    );
+    --sapContent_IconColor: var(--sapButton_Emphasized_TextColor, #ffffff);
+  }
+  
+  .dasChatInputSubmitButton .sapMBtnInner {
+    border-radius: 1rem;
+    height: 1.75rem;
+    width: 1.75rem;
+    border: none !important;
+  }
+  
+  .dasChatInputSubmitButtonDisabled {
+    margin-left: 4px;
+    opacity: 0.6;
+  }
+  
+  .chattextarea .sapMFocus {
+    border: 2px solid green !important;
+    overflow: hidden;
+    outline: none;
+  }
+  
+  /* Result */
+  .summaryBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2rem;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 122, 255, 0.08),
+      rgba(0, 122, 255, 0.02)
+    );
+    border-bottom: 1px solid rgba(0, 122, 255, 0.15);
+  }
+  
+  .summaryTitle{
+      font-size: 1.5rem;
+      color: rgb(0, 122, 255);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin: 0px;
+  }
+  
+  .responseTextBox{
+      overflow-x: auto;
+      padding: 2rem;
+  }
+  
+  .response-content {
+    line-height: 1.2;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  /* Enhanced Heading Styles */
+  .response-content h1,
+  .response-content h2,
+  .response-content h3,
+  .response-content h4,
+  .response-content h5,
+  .response-content h6 {
+    margin: 2rem 0 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+  
+  .response-content h1 {
+    font-size: 2rem;
+    color: #007aff;
+    border-bottom: 3px solid rgba(0, 122, 255, 0.25);
+    padding-bottom: 0.5rem;
+  }
+  
+  .response-content h2 {
+    font-size: 1.75rem;
+    color: #005bb5;
+    border-left: 4px solid #005bb5;
+    padding-left: 1rem;
+  }
+  
+  .response-content h3 {
+    font-size: 1.5rem;
+    color: #003d82;
+    border-left: 3px solid rgba(0, 61, 130, 0.3);
+    padding-left: 0.5rem;
+  }
+  
+  .response-content h4 {
+    font-size: 1.25rem;
+    color: #002b5c;
+  }
+  
+  .response-content h5 {
+    font-size: 1.15rem;
+    color: #001a3d;
+  }
+  
+  .response-content h6 {
+    font-size: 1.05rem;
+    color: #333;
+    font-style: italic;
+  }
+  
+  /* Enhanced Paragraph and List Styles */
+  .response-content p {
+    margin: 1rem 0;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  
+  .response-content ul,
+  .response-content ol {
+    margin: 1rem 0;
+    padding-left: 2.5rem;
+  }
+  
+  .response-content ul {
+    list-style-type: none;
+  }
+  
+  .response-content ul li {
+    position: relative;
+    margin: 0.75rem 0;
+    color: #333;
+  }
+  
+  .response-content ul li:before {
+    content: "•";
+    color: #007aff;
+    font-size: 1.5rem;
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .response-content ol {
+    list-style-type: decimal;
+  }
+  
+  .response-content ol li {
+    margin: 0.75rem 0;
+    color: #333;
+  }
+  
+  /* Enhanced Table Styles */
+  .response-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .response-content th,
+  .response-content td {
+    padding: 1rem;
+    border: 1px solid rgba(0, 122, 255, 0.15);
+    text-align: left;
+    color: #333;
+  }
+  
+  .response-content th {
+    background: rgba(0, 122, 255, 0.1);
+    color: #005bb5;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .response-content td {
+    background: #fff;
+  }
+  
+  .response-content tr:nth-child(even) td {
+    background: rgba(0, 122, 255, 0.02);
+  }
+  

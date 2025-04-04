@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt">
+        <tnt:SideNavigation id="sideNavigation"
+            expanded="false"
+            itemSelect="onItemSelect">
+           	<tnt:NavigationList id="mainList" class="navListIcon">
+				<tnt:NavigationListItem id="dashboard" text="{i18n>dashboard}" tooltip="{i18n>dashboard}" icon="sap-icon://bbyd-dashboard" key="home"/>
+				<tnt:NavigationListItem id="analysis" text="{i18n>analysis}" tooltip="{i18n>analysis}" icon="sap-icon://employee-lookup" key="action" />
+                <tnt:NavigationListItem id="file" text="{i18n>file}" tooltip="{i18n>file}" icon="sap-icon://open-folder" key="home" />
+				<tnt:NavigationListItem id="reports" text="{i18n>reports}" tooltip="{i18n>reports}" icon="sap-icon://manager-insight" key="action" />
+                <tnt:NavigationListItem id="settings" text="{i18n>settings}" tooltip="{i18n>settings}" icon="sap-icon://action-settings" key="home" />
+				<tnt:NavigationListItem id="help" text="{i18n>help}"  tooltip="{i18n>help}" icon="sap-icon://sys-help" key="action" />
+			</tnt:NavigationList>
+
+        </tnt:SideNavigation>
+</core:FragmentDefinition>

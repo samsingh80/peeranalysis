@@ -1,0 +1,48 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <FlexBox id="ChatBot" class="ChatBox" direction="Column">
+
+        <FlexBox direction="Column" class="chatFlex hide-scroll">
+            <ScrollContainer id="scrollChatBox" class="hide-scroll" height="100%" width="100%" vertical="true" horizontal="false">
+                <FlexBox id="dynamicChatBox" class="dynamicChatBox" direction="Column">
+                    <FlexBox id='historyItems' items="{
+                        path: 'chatModel>/messages'
+                    }" direction="Column">
+                        <items>
+                            <FlexBox direction="Column">
+                                <FlexBox direction="Column" visible="{= %{chatModel>message} !== '' &amp;&amp; %{chatModel>message} !== null}">
+                                    <FlexBox alignItems="Center" justifyContent="End" class="userBox" visible="{= %{chatModel>actor} === 'user'}">
+                                        <FormattedText htmlText="{chatModel>message}" class="userMessage" />
+                                    </FlexBox>
+                                    <FlexBox direction="Column" justifyContent="Start" class="agentBox" visible="{= %{chatModel>actor} === 'bot'}">
+                                        <FormattedText htmlText="{chatModel>message}" class="agentMessage response-content" />
+                                         <HBox class="messageEmotions" id="messageEmotions">
+                                            <Button icon="sap-icon://copy" type="Transparent" press="onChatCopy" tooltip="{i18n>copyTooltip}"/>
+                                            <Button icon="sap-icon://synchronize" type="Transparent" press="onChatRegenerate" tooltip="{i18n>regenerate}" app:userMessage="{chatModel>userMessage}"/>
+                                            <Button icon="sap-icon://download" type="Transparent" press="onChatExport" tooltip="{i18n>export}" app:message="{chatModel>message}"/>
+                                            </HBox>
+                                    </FlexBox>
+                                </FlexBox>
+                             </FlexBox>
+                        </items>
+                    </FlexBox>
+                </FlexBox>
+                <FlexBox id="chatBusyIndicator" visible="{chatModel>/busyIndicator}" justifyContent="Center" alignItems="Center" class="busyBox">
+                    <BusyIndicator size="1rem" class="busyIndicator"/>
+                </FlexBox>
+            </ScrollContainer>
+        </FlexBox>
+        <FlexBox class="dasTextAreaInput sapUiTinyMarginBeginEnd sapUiTinyMarginBottom" alignItems="Start" visible="{= !${chatModel>/isMinimize}  &amp;&amp;  !${chatModel>/showHistory}}">
+            <TextArea id="chatFeedInput" width="96%" class="chattextarea" liveChange="userlivechange" value="{chatModel>/recentQuery}" enabled="{= !${chatModel>/busyIndicator} }" rows="1" growingMaxLines="23" placeholder="Message" growing="true">
+                <layoutData>
+                    <FlexItemData growFactor="1" />
+                </layoutData>
+            </TextArea>
+            <Button id="chatFeedSubmit" icon="sap-icon://paper-plane" type="Emphasized" press="onUserChat" class="dasChatInputSubmitButton sapUiTinyMargin"  enabled="{chatModel>/enableSubmit}" />
+        </FlexBox>
+
+        </FlexBox>
+
+</core:FragmentDefinition>
