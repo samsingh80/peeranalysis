@@ -28,7 +28,8 @@ sap.ui.define([
        */
       onItemSelect: function (oEvent) {
         const oTarget = oEvent?.getSource()?.getSelectedKey();
-        Util.navTo(this, oTarget);
+        // Util.navTo(this, oTarget);
+        this.getOwnerComponent().getRouter().navTo(oTarget);
       }
 
 

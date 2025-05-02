@@ -1,8 +1,9 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
     "peeranalysis/model/models",
-     "peeranalysis/model/chatModel"
-], (UIComponent, models,chatModel) => {
+     "peeranalysis/model/chatModel",
+     "sap/ui/model/odata/v4/ODataModel"
+], (UIComponent, models,chatModel,ODataModel,uploadEarnings) => {
     "use strict";
 
     return UIComponent.extend("peeranalysis.Component", {
@@ -33,6 +34,21 @@ sap.ui.define([
                         });
             
                         this.setModel(oImageModel, "imageModel");
+
+                        const oContentModel = new ODataModel({
+                            serviceUrl: "./odata/v4/earning-upload-srv/",
+                            synchronizationMode: "None", // or "Auto" depending on your use case
+                            operationMode: "Server", 
+                            groupId: "$auto",
+                            updateGroupId: "$auto",
+                            autoExpandSelect: true
+                          });
+                    
+                          // Set the model to the component with a name
+                          this.setModel(oContentModel, "contentModel");
+
+                        //   jQuery.sap.registerModulePath("com.scb.uploadearnings", "../com.scb.uploadearnings");
+                          
 
         }
     });

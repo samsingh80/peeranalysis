@@ -1,0 +1,18 @@
+<mvc:View 
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:unified="sap.ui.unified"
+	xmlns:uxap="sap.uxap"
+	xmlns:tnt="sap.tnt"
+    controllerName="peeranalysis.controller.ReportsView"
+>
+    <Page id="reportspage" title="{i18n>title}">
+        <content >
+            <VBox height="100%">
+                <html:iframe src="https://development-40qq74qu.launchpad.cfapps.us10.hana.ondemand.com/a45eba73-2477-4377-a953-1e7dda1c383e.earningupload.comscbuploadearnings-0.0.1/index.html" width="100%" height="1000px" frameborder="0" />
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -4,6 +4,7 @@ specVersion: "3.1"
 metadata:
   name: peeranalysis
 type: application
+
 server:
   customMiddleware:
     - name: fiori-tools-proxy
@@ -15,12 +16,16 @@ server:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
+        backend:
+          - path: /odata/v4/earning-upload-srv/
+            url: http://localhost:4004
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
         port: 35729
         path: webapp
         delay: 300
+
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

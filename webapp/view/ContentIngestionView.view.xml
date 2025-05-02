@@ -1,0 +1,88 @@
+<mvc:View 
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:unified="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table"
+    controllerName="peeranalysis.controller.ContentIngestionView">
+
+    <Page id="page1" title="Upload Content" showFooter="true">
+
+        <content>
+
+            <VBox id="attachmentBox" class="sapUiSmallMargin" visible="{=  ${authModel>/isAdmin} }">
+                <!-- Rows will be added here dynamically -->
+            </VBox>
+
+            <HBox class="sapUiSmallMarginTop"  visible="{=  ${authModel>/isAdmin} }">
+                <Button icon="sap-icon://add" text="Add Attachment" press="onAddAttachment"/>
+                <Button icon="sap-icon://upload" text="Upload All" press="onUploadFileContent"/>
+            </HBox>
+
+<table:Table
+    id="uploadedFilesTable"
+    rows="{ path: 'contentModel>/EmbeddingFiles' }"
+    selectionMode="MultiToggle"
+    visibleRowCount="10"
+    enableSelectAll="true"
+    multiSelectMode="Default">
+
+    <table:columns>
+
+        <!-- File Name column - NO sort/filter -->
+        <table:Column>
+            <Label text="File Name" />
+            <table:template>
+                <Text text="{contentModel>fileName}" />
+            </table:template>
+        </table:Column>
+
+        <!-- Status column - WITH sort/filter -->
+        <table:Column sortProperty="status" filterProperty="status">
+            <Label text="Status" />
+            
+            <table:template>
+                <Text text="{contentModel>status}" />
+            </table:template>
+        </table:Column>
+
+        <!-- Download column - no sort/filter -->
+        <table:Column>
+            <Label text="Download" />
+            <table:template>
+                <Link
+                    text="{contentModel>fileName}"
+                    target="_blank"
+                    href="{= './odata/v4/earning-upload-srv/EmbeddingFiles(\'' + ${contentModel>ID} + '\')/content' }"  />
+                 
+            </table:template>
+        </table:Column>
+
+    </table:columns>
+
+</table:Table>
+
+        </content>
+
+        <footer >
+            <Bar visible="{=  ${authModel>/isAdmin} }">
+                <contentRight>
+                    <Button 
+                        id="approveButton"
+                        text="Approve" 
+                        type="Accept" 
+                        icon="sap-icon://accept" 
+                        press="onApproveFiles" />
+                    
+                    <Button 
+                        id="rejectButton"
+                        text="Reject" 
+                        type="Reject" 
+                        icon="sap-icon://decline" 
+                        press="onRejectFiles" />
+                </contentRight>
+            </Bar>
+        </footer>
+
+    </Page>
+</mvc:View>

@@ -14,8 +14,22 @@
       "id": "@sap/generator-fiori:basic",
       "version": "1.17.1",
       "toolsId": "70a2b2ef-2a2c-4c7e-bb7d-d9c265e13dbb"
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "Earnings-upload": {
+          "semanticObject": "content",
+          "action": "view",
+          "title": "{{peeranalysis.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
+
   "sap.ui": {
     "technology": "UI5",
     "icons": {
@@ -52,6 +66,7 @@
           "bundleName": "peeranalysis.i18n.i18n"
         }
       }
+
     },
     "resources": {
       "css": [
@@ -79,13 +94,51 @@
           "target": [
             "TargetPeerAnaysisView"
           ]
+        },
+        {
+          "pattern": "ContentIngestionView",
+          "name": "ContentIngestionView",
+          "target": "ContentIngestionView"
+        },
+        {
+          "pattern": "home",
+          "name": "home",
+          "target": "HomeView"
+        },
+        {
+          "pattern": "Approval",
+          "name": "Approval",
+          "target": "ApprovalView"
+        },
+        {
+          "pattern": "Reports",
+          "name": "Reports",
+          "target": "ReportsView"
         }
       ],
       "targets": {
         "TargetPeerAnaysisView": {
           "id": "PeerAnaysisView",
           "name": "PeerAnaysisView"
+        },
+        "ContentIngestionView": {
+          "id": "ContentIngestionView",
+          "name": "ContentIngestionView"
+        },
+        "HomeView": {
+          "id": "PeerAnaysisView",
+          "name": "PeerAnaysisView"
+        },
+        "ApprovalView": {
+          "id": "ApprovalView",
+          "name": "ApprovalView"
+        },
+        "ReportsView": {
+          "id": "ReportsView",
+          "name": "ReportsView"
         }
+
+
       }
     },
     "rootView": {

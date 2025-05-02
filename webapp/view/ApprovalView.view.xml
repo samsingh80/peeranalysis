@@ -1,0 +1,60 @@
+<mvc:View
+  controllerName="peeranalysis.controller.Approval"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:f="sap.f"
+  xmlns="sap.m">
+  
+  <f:FlexibleColumnLayout id="approvalLayout"
+    layout="TwoColumnsMidExpanded"
+    midColumnVisible="true">
+  
+    <f:beginColumnPages>
+      <Page id="approvalListPage" title="Pending Approvals">
+        <Table
+          items="{ path: 'contentModel>/EmbeddingFiles'}"
+          itemPress="onFileSelect"
+          mode="SingleSelectMaster">
+          <columns>
+            <Column><Text text="File Name"/></Column>
+            <Column><Text text="Uploader"/></Column>
+          </columns>
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text text="{contentModel>fileName}" />
+                <Text text="{contentModel>createdBy}" />
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+      </Page>
+    </f:beginColumnPages>
+
+    <f:midColumnPages>
+<Page id="filePreviewPage" title="Preview &amp; Approve">
+
+<VBox>
+  <PDFViewer
+    source="{contentModel>/selectedFileUrl}"
+    visible="{= ${contentModel>/selectedFileType} === 'pdf'}" />
+  
+  <Image
+    src="{contentModel>/selectedFileUrl}"
+    visible="{= ${contentModel>/selectedFileType} !== 'pdf'}" />
+  
+  <TextArea placeholder="Comments..." />
+</VBox>
+
+  <footer>
+    <Bar>
+      <contentRight>
+        <Button text="Approve" type="Accept" press="onApprove"/>
+        <Button text="Reject" type="Reject" press="onReject"/>
+      </contentRight>
+    </Bar>
+  </footer>
+
+</Page>
+    </f:midColumnPages>
+  </f:FlexibleColumnLayout>
+</mvc:View>
