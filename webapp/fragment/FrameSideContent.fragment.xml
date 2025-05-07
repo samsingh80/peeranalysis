@@ -6,12 +6,10 @@
             expanded="false"
             itemSelect="onItemSelect">
            	<tnt:NavigationList id="mainList" class="navListIcon">
-				<tnt:NavigationListItem id="dashboard" text="{i18n>dashboard}" tooltip="{i18n>dashboard}" icon="sap-icon://bbyd-dashboard" key="home"/>
+				<tnt:NavigationListItem id="dashboard" text="Ask Finsight" tooltip="Ask Finsight" icon="sap-icon://bbyd-dashboard" key="home"/>
 				<tnt:NavigationListItem id="contentingestion" text="content ingestion" tooltip="{i18n>analysis}" icon="sap-icon://employee-lookup" key="ContentIngestionView" />
-                <tnt:NavigationListItem id="Approval" text="Approval" tooltip="Approval" icon="sap-icon://open-folder" key="Approval" />
 				<tnt:NavigationListItem id="Reports" text="{i18n>reports}" tooltip="{i18n>reports}" icon="sap-icon://manager-insight" key="Reports" />
-                <tnt:NavigationListItem id="settings" text="{i18n>settings}" tooltip="{i18n>settings}" icon="sap-icon://action-settings" key="home" />
-				<tnt:NavigationListItem id="help" text="{i18n>help}"  tooltip="{i18n>help}" icon="sap-icon://sys-help" key="action" />
+
 			</tnt:NavigationList>
 
         </tnt:SideNavigation>
