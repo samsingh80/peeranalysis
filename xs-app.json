@@ -2,6 +2,12 @@
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
   "routes": [
+    {
+      "source": "^/v2/odata/v4/earning-upload-srv/(.*)$",
+      "target": "/v2/odata/v4/earning-upload-srv/$1",
+      "authenticationType": "xsuaa",
+      "destination": "peeranalysis"
+    },
 
     {
       "source": "^/odata/v4/earning-upload-srv/(.*)$",
@@ -9,6 +15,7 @@
       "authenticationType": "xsuaa",
       "destination": "peeranalysis"
     },
+
     {
       "source": "^/api/(.*)$",
       "destination": "earningsai",

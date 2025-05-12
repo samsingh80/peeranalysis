@@ -8,6 +8,7 @@ sap.ui.define([
 
     return UIComponent.extend("peeranalysis.Component", {
         metadata: {
+       
             manifest: "json",
             interfaces: [
                 "sap.ui.core.IAsyncContentCreation"
@@ -17,12 +18,14 @@ sap.ui.define([
         init() {
             // call the base component's init function
             UIComponent.prototype.init.apply(this, arguments);
+            this.getRouter().initialize();
+            this.getModel("embeddings");
 
             // set the device model
             this.setModel(models.createDeviceModel(), "device");
 
             // enable routing
-            this.getRouter().initialize();
+           
             
                         //Set Chat model
                         this.setModel(new chatModel(), "chatModel");

@@ -65,8 +65,18 @@
         "settings": {
           "bundleName": "peeranalysis.i18n.i18n"
         }
+      },
+      "embeddings": {
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "uri": "./v2/odata/v4/earning-upload-srv/",
+        "settings": {
+          "odataVersion": "2.0",
+          "synchronizationMode": "None",
+          "defaultBindingMode": "TwoWay",
+          "operationMode": "Server",
+          "autoExpandSelect": true
+        }
       }
-
     },
     "resources": {
       "css": [

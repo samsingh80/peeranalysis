@@ -1,71 +1,65 @@
-<mvc:View 
+<mvc:View xmlns:mdc="sap.ui.mdc" xmlns:macros="sap.fe.macros" xmlns:filterbar="sap.ui.comp.filterbar" 
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core"
-    xmlns:table="sap.ui.table"
+    xmlns:sfb="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:m="sap.m"
     controllerName="peeranalysis.controller.ContentIngestionView">
 
     <Page id="page1" title="Upload Content" showFooter="true">
-
         <content>
 
-            <VBox id="attachmentBox" class="sapUiSmallMargin" visible="{=  ${authModel>/isAdmin} }">
-                <!-- Rows will be added here dynamically -->
-            </VBox>
-
-            <HBox class="sapUiSmallMarginTop"  visible="{=  ${authModel>/isAdmin} }">
+            <VBox id="attachmentBox" class="sapUiSmallMargin" visible="{=  ${authModel>/isViewer} }" />
+            
+            <HBox class="sapUiSmallMarginTop" visible="{= ${authModel>/isViewer} }">
                 <Button icon="sap-icon://add" text="Add Attachment" press="onAddAttachment"/>
                 <Button icon="sap-icon://upload" text="Upload All" press="onUploadFileContent"/>
             </HBox>
 
-<table:Table
-    id="uploadedFilesTable"
-    rows="{ path: 'contentModel>/EmbeddingFiles' }"
-    selectionMode="MultiToggle"
-    visibleRowCount="10"
-    enableSelectAll="true"
-    multiSelectMode="Default">
+            <sfb:SmartFilterBar
+                id="smartFilterBar"
+                entitySet="EmbeddingFiles"
+                persistencyKey="SmartFilterBarFiles"
+                enableBasicSearch="true"
+                basicSearchFieldName="status"
+                showClearOnFB="true"
+                showFilterConfiguration="true"
+                useToolbar="true"
+                
+               >
+           
+                
+                <sfb:customData>
+                    <core:CustomData key="preselectionDefaults" value='{"status": "Completed"}' />
+                </sfb:customData>
+                
+            </sfb:SmartFilterBar>
 
-    <table:columns>
+            <smartTable:SmartTable
+                id="smartTable"
+                tableType="ResponsiveTable"
+                entitySet="EmbeddingFiles"
+                smartFilterId="smartFilterBar"
+                useVariantManagement="true"
+                useTablePersonalisation="true"
+                header="Uploaded Files"
+                showRowCount="true"
+                useExportToExcel="true"
+                persistencyKey="SmartTableFiles" >
 
-        <!-- File Name column - NO sort/filter -->
-        <table:Column>
-            <Label text="File Name" />
-            <table:template>
-                <Text text="{contentModel>fileName}" />
-            </table:template>
-        </table:Column>
 
-        <!-- Status column - WITH sort/filter -->
-        <table:Column sortProperty="status" filterProperty="status">
-            <Label text="Status" />
-            
-            <table:template>
-                <Text text="{contentModel>status}" />
-            </table:template>
-        </table:Column>
+				<smartTable:layoutData>
+					<m:FlexItemData id="flex" growFactor="1" baseSize="0%"/>
+				</smartTable:layoutData>
 
-        <!-- Download column - no sort/filter -->
-        <table:Column>
-            <Label text="Download" />
-            <table:template>
-                <Link
-                    text="{contentModel>fileName}"
-                    target="_blank"
-                    href="{= './odata/v4/earning-upload-srv/EmbeddingFiles(\'' + ${contentModel>ID} + '\')/content' }"  />
-                 
-            </table:template>
-        </table:Column>
-
-    </table:columns>
-
-</table:Table>
-
+ 
+                  
+			</smartTable:SmartTable>
         </content>
 
-        <footer >
-            <Bar visible="{=  ${authModel>/isAdmin} }">
+        <footer>
+            <Bar visible="{= ${authModel>/isAdmin} }">
                 <contentRight>
                     <Button 
                         id="approveButton"
@@ -83,6 +77,5 @@
                 </contentRight>
             </Bar>
         </footer>
-
     </Page>
 </mvc:View>

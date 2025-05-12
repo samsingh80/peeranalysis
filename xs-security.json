@@ -11,11 +11,11 @@
   ],
   "role-templates": [
     {
-      "name": "UserRole",
+      "name": "T_SCB_EFDNA_GenAI_Earnings_Maker",
       "scope-references": ["$XSAPPNAME.scopeforview"]
   },{
-      "name": "ManagerRole",
-      "scope-references": ["$XSAPPNAME.scopeforview",  "$XSAPPNAME.scopeformanage"]
+      "name": "T_SCB_EFDNA_GenAI_Earnings_Checker",
+      "scope-references": ["$XSAPPNAME.scopeformanage"]
   }
   ]
 }

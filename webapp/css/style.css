@@ -503,4 +503,22 @@
   .response-content tr:nth-child(even) td {
     background: rgba(0, 122, 255, 0.02);
   }
+
+  .nonSelectableRow {
+    background-color: #f5f5f5 !important;
+    opacity: 0.6;
+  }
+  
+  /* Override pointer-events only for the selection area (not the whole row) */
+  .nonSelectableRow .sapMListTblSelCol,
+  .nonSelectableRow .sapMLIBSelectM {
+    pointer-events: none;
+  }
+  
+  /* Ensure the Link inside the row is still clickable */
+  .nonSelectableRow .sapMText,
+  .nonSelectableRow .sapMLnk {
+    pointer-events: auto;
+    opacity: 1;
+  }
   
