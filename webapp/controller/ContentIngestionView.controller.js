@@ -57,7 +57,7 @@ sap.ui.define([
                   const oCtx = oItem.getBindingContext();
                   const status = oCtx?.getProperty("status");
           
-                  if (status !== "submitted") {
+                  if (status !== "Submitted") {
                     oItem.addStyleClass("nonSelectableRow");
                     oItem.data("selectable", false);
                   } else {
@@ -66,11 +66,25 @@ sap.ui.define([
                   }
                 });
               });
-            });
-          
+            });                      
             // Run initial search to trigger binding
             const oFilterBar = this.byId("smartFilterBar");
-            oFilterBar.search();
+            oFilterBar.attachInitialise(() =>{
+              const oAuthModel = this.getView().getModel("authModel");
+              const bIsAdmin  = oAuthModel?.getProperty("/isAdmin");
+              if(bIsAdmin){
+                const oCurrentFilters = oFilterBar.getFilterData();
+                if(!oCurrentFilters.status){
+                  oFilterBar.setFilterData({status:"Submitted"});
+                  oFilterBar.search();
+                }
+              }else{
+                oFilterBar.search();
+              }
+
+
+            });
+            
           },
       onBeforeRebindTable: function (oEvent) {
         var oBindingParams = oEvent.getParameter("bindingParams");
@@ -82,7 +96,7 @@ sap.ui.define([
             oTable.getItems().forEach(function (oItem) {
                 const oContext = oItem.getBindingContext();
                 const status = oContext?.getProperty("status");
-                if (status !== "submitted") {
+                if (status !== "Submitted") {
                     oItem.data("selectable", false);
                 }
     
@@ -97,17 +111,34 @@ sap.ui.define([
         const oBinding = oTable.getBinding("rows");
     
         if (oBinding) {
-            const oFilter = new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "submitted");
+            const oFilter = new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Submitted");
             oBinding.filter([oFilter]);
         } else {
             // in case the binding isn't ready yet, wait and retry after rendering
             oTable.attachEventOnce("updateFinished", () => {
                 const oBindingAfter = oTable.getBinding("rows");
                 if (oBindingAfter) {
-                    const oFilter = new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "submitted");
+                    const oFilter = new sap.ui.model.Filter("status", sap.ui.model.FilterOperator.EQ, "Submitted");
                     oBindingAfter.filter([oFilter]);
                 }
             });
+        }
+
+      },
+      
+      
+      onTableRefresh: function(){
+
+        const oModel = this.getView().getModel();
+        oModel.refresh(true);
+        const oTable = this.byId("smartTable");
+        const oInnerTable = oTable.getTable();
+        if (oInnerTable){
+          const oBinding = oInnerTable.getBinding("rows") || oInnerTable.getBinding("items");
+          if (oBinding) {
+            oBinding.refresh();
+        }
+
         }
 
       },
@@ -225,14 +256,16 @@ sap.ui.define([
   return hashHex;
 },
 
-onApproveFiles: async function () {
+ onApproveFiles: async function () {
   const oTable = this.byId("smartTable").getTable();
   const aSelectedItems = oTable.getSelectedItems();
   const oModel = this.getView().getModel();
+  const oView = this.getView();
   const baseUrl = this.getBaseURL();
-  let serviceUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/EmbeddingFiles/" ;
-  let csrfUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/" ;
+  let busyDialogTxt = " ";
+
   const embeddingUrl = "https://EarningsAIAssistantUI5-noisy-numbat-gk.cfapps.ap11.hana.ondemand.com/api/generate-embeddings";
+  const csrfUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/";
   const csrf = await this.onfetchCSRF(csrfUrl);
 
   if (aSelectedItems.length === 0) {
@@ -240,27 +273,48 @@ onApproveFiles: async function () {
     return;
   }
 
+  oView.setBusy(true);
+
   const successList = [];
   const failedList = [];
 
+  // Step 1: Update status of each file to "Approved"
   for (const oItem of aSelectedItems) {
     const oCtx = oItem.getBindingContext();
     const fileId = oCtx.getProperty("ID");
-    serviceUrl = serviceUrl + fileId;
-
+    const fileUrl = `${baseUrl}/v2/odata/v4/earning-upload-srv/EmbeddingFiles/${fileId}`;
+   
     try {
-      //  Step 1: Update status in OData (CAP)
-      await fetch(serviceUrl, {
+      await fetch(fileUrl, {
         method: "PATCH",
         headers: {
-          "X-CSRF-Token": csrf,
+         "X-CSRF-Token": csrf,
           "Content-Type": "application/json"
         },
         credentials: "include",
         body: JSON.stringify({ status: "Approved" })
       });
 
-      // Step 2: Call downstream REST API
+      oModel.setProperty(oCtx.getPath() + "/status", "Approved");
+      successList.push(fileId);
+    } catch (error) {
+      console.error(`Approval failed for file ${fileId}:`, error);
+      failedList.push(fileId);
+    }
+  }
+
+ 
+
+  // Step 2: Call downstream API only if all PATCHes succeeded
+  if (failedList.length === 0) {
+    busyDialogTxt = "Embedding is getting generated...";
+    const oBusyDialog = new sap.m.BusyDialog({
+      title: "Generating Embeddings",
+      text: busyDialogTxt
+    });
+    oBusyDialog.open();
+
+    try {
       const restResponse = await fetch(embeddingUrl, {
         method: "POST",
         headers: {
@@ -268,34 +322,70 @@ onApproveFiles: async function () {
         }
       });
 
+
+
       if (!restResponse.ok) {
+        sap.m.MessageToast.show(restResponse.status);
         throw new Error(`REST call failed with status ${restResponse.status}`);
+      }else{
+        this.onTableRefresh();
+    //     await this._readEntitySetAsync(this.getView().getModel(), "/EmbeddingFiles");
+    //     const oEmbTable = this.byId("smartTable");
+    //     oEmbTable.rebindTable();
+    // //    this.getView().getController().onInit();
+    //     oBusyDialog.close();
+    //        sap.m.MessageBox.success(`${successList.length} file(s) approved and embeddings generated.`);
+    //        const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+    //        oRouter.navTo("ContentIngestionView",{},true);
+
+          
       }
 
-      //  UI feedback
-      oModel.setProperty(oCtx.getPath() + "/status", "approved");
-      successList.push(fileId);
-
-    } catch (error) {
-      console.error(`Approval failed for file ${fileId}:`, error);
-      failedList.push(fileId);
+      // sap.m.MessageToast.show(`${successList.length} file(s) approved and embeddings generated.`);
+      // sap.m.MessageBox.Success(`${successList.length} file(s) approved and embeddings generated.`);
+    } catch (restErr) {
+      oBusyDialog.close();
+      oView.setBusy(false);
+      console.error("Downstream API call failed:", restErr);
+      sap.m.MessageBox.error("Files were approved but embedding generation failed.");
     }
+    finally {
+      oBusyDialog.close();
+      oView.setBusy(false);
+    }
+  } else {
+    sap.m.MessageBox.warning(`${failedList.length} file(s) failed to approve:\n\n${failedList.join(", ")}`);
   }
 
-  oModel.refresh(true);
 
-  if (successList.length > 0) {
-    sap.m.MessageToast.show(`${successList.length} file(s) approved successfully.`);
-  }
 
-  if (failedList.length > 0) {
-    sap.m.MessageBox.error(
-      `${failedList.length} file(s) failed to approve:\n\n${failedList.join(", ")}`,
-      { title: "Approval Failed" }
-    );
-  }
-},
+
+
+  //  const oInnerTable = oEmbTable.getTable();
+  // if (oInnerTable){
+  //   const oBinding = oInnerTable.getBinding("rows") || oInnerTable.getBinding("items");
+  //   if (oBinding) {
+  //     oBinding.refresh(true);
+  //     oEmbTable.Invalidate();
+  // }
+
+ 
+  // }
   
+  },
+ 
+  _readEntitySetAsync:function (oModel,sPath){
+
+    return new Promise((resolve, reject) =>{
+      oModel.read(sPath,{
+        success:(data) => resolve(data),
+        error: (err) => reject(err)
+      });
+
+    });
+  },
+
+ 
   onRejectFiles: function () {
     const oTable = this.byId("smartTable").getTable();
     const aSelectedItems = oTable.getSelectedItems();
@@ -321,16 +411,33 @@ onApproveFiles: async function () {
     const oModel = this.getView().getModel();
     const baseUrl = this.getBaseURL();
     let serviceUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/EmbeddingFiles/" ;
+
+    async function fetchCsrfToken(url) {
+      const response = await fetch(url, {
+          method: "HEAD",
+          credentials: "include",
+          headers: {
+              "X-CSRF-Token": "Fetch"
+          }
+      });
+      const token = response.headers.get("X-CSRF-Token");
+      if (!token) {
+          throw new Error("Failed to fetch CSRF token");
+      }
+      return token;
+  }
   
     for (const oCtx of this._rejectionContexts) {
       const fileId = oCtx.getProperty("ID");
       serviceUrl = serviceUrl+fileId;
-  
+      const csrfToken = await fetchCsrfToken(serviceUrl);
       // Send rejection update to backend
       await fetch(serviceUrl, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken
+
         },
         body: JSON.stringify({ comments: oComment,
           status: "Rejected"
@@ -416,7 +523,7 @@ onUploadFileContent: async function () {
                       fileName: file.name,
                       mediaType: file.type,
                       url: "./v2/odata/v4/earning-upload-srv/EmbeddingFiles('" +fileHash + "')/content",
-                      status: "submitted"
+                      status: "Submitted"
                   })
               });
 
@@ -443,11 +550,19 @@ onUploadFileContent: async function () {
               });
 
               // Refresh model data
+              const oModel = this.getView().getModel();
+              oModel.refresh(true);
               const oTable = that.byId("smartTable");
-              const oBinding = oTable.getBinding("rows");
-              if (oBinding) {
+              const oInnerTable = oTable.getTable();
+              if (oInnerTable){
+                const oBinding = oInnerTable.getBinding("rows") || oInnerTable.getBinding("items");
+                if (oBinding) {
                   oBinding.refresh();
               }
+
+              }
+             
+
 
           } catch (err) {
               console.error("Upload error:", err);

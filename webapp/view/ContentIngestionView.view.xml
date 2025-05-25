@@ -43,6 +43,7 @@
                 smartFilterId="smartFilterBar"
                 useVariantManagement="true"
                 useTablePersonalisation="true"
+                enableAutoBinding="true"
                 header="Uploaded Files"
                 showRowCount="true"
                 useExportToExcel="true"

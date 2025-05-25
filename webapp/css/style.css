@@ -521,4 +521,26 @@
     pointer-events: auto;
     opacity: 1;
   }
+
+  #container-peeranalysis---ContentIngestionView--smartFilterBar-btnClear,
+  #container-peeranalysis---ContentIngestionView--smartFilterBar-btnShowHide {
+    display: none !important;
+  }
+
+  button[id$="--smartFilterBar-btnClear"],
+button[id$="--smartFilterBar-btnShowHide"],
+button[id$="--smartFilterBar-btnFilters"] {
+  display: none !important;
+}
+
+.sapUiCompFilterBarToolbar .sapUiCompFilterBarControlsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.sapUiCompFilterBarControl {
+  margin-right: 1rem;
+  flex: none;
+}
   
