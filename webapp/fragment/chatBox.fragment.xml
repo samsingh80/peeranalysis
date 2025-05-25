@@ -6,9 +6,9 @@
 
  
   <VBox class="ChatBox dasTextAreaInput"  >
-      <FlexBox id="ChatBotresult"  >
+      <FlexBox id="ChatBotresult" height="5rem" >
 
-        <TextArea id="chatFeedInput" width="96%" class="chattextarea" liveChange="userlivechange" value="{chatModel>/userMessage}" enabled="{= !${chatModel>/busyIndicator} }" rows="1" growingMaxLines="23" placeholder="Message" growing="true">
+        <TextArea id="chatFeedInput" width="96%" height="500px" class="chattextarea" liveChange="userlivechange"  value="{chatModel>/userMessage}" enabled="{= !${chatModel>/busyIndicator} }" rows="1" growingMaxLines="23" placeholder="{chatModel>/placeHolder}" growing="true">
                 <layoutData>
                     <FlexItemData growFactor="1" />
                 </layoutData>
@@ -18,7 +18,7 @@
         </FlexBox>
   
               <FlexBox id="chatBusyIndicator1" visible="{chatModel>/busyIndicator}" justifyContent="Center" alignItems="Center" class="busyBox">
-                  <BusyIndicator id = "busyind" text="{chatModel>/busyText}"  size="1rem" class="busyIndicator"/>
+                 
             </FlexBox>
 
                 <FlexBox id="btncontrolls" justifyContent= "Start" alignItems="Start" class="busyBox">

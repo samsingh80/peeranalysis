@@ -543,4 +543,21 @@ button[id$="--smartFilterBar-btnFilters"] {
   margin-right: 1rem;
   flex: none;
 }
+
+.response-content {
+  text-align: left !important;
+  letter-spacing: normal !important;
+}
+
+body, .sapMText, .sapMTitle {
+  font-family: "72", "Arial", sans-serif !important;
+}
+
+.exporting .summaryBox {
+  box-shadow: none !important;
+}
+
+.exporting .sapMText {
+  font-size: 1rem !important;
+}
   

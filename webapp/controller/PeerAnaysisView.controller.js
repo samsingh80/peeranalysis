@@ -45,54 +45,68 @@ sap.ui.define([
      * Calls the ai and return aresponse
      * @param {object} oEvent object
      */
- onUserChat: async function (oEvent) {
+ onUserChat: async function () {
+  const chatModel = this.getOwnerComponent().getModel("chatModel");
+  const oView = this.getView();
+  const sInput = this.byId("chatFeedInput").getValue();
 
-    const chatModel = this.getOwnerComponent().getModel("chatModel");
-    //disable submit button
-    chatModel.setSubmit(false);
-    chatModel.setbusyText("Processing your request. Please standby..");
-    chatModel.setbusyIndicator(true);
-    chatModel.setvisibleResult(false);
+  // Disable submit + hide previous result
+  chatModel.setSubmit(false);
+  chatModel.setvisibleResult(false);
 
-    // Get the user input
-    const Feedinp = this.getView().byId("chatFeedInput");
-    const sInput = Feedinp.getValue();
-    // triggerChat(this, sInput);
-    // const sResponse = "";
-    
-    const Resp = "";
-    
-    this.onfetchData(sInput).then(resp=> {
-        
-    chatModel.setbusyIndicator(false);
-    chatModel.setvisibleResult(true);
+  // Create and show busy dialog
+  const oBusyDialog = new sap.m.BusyDialog({
+    title: "Busy Indicator",
+    text: "Generating response. Please standby.."
+  });
+  oBusyDialog.open();
+
+  // Freeze the screen
+  oView.setBusy(true);
+
+  // 🔁 Yield back to rendering thread before blocking async call
+  await Promise.resolve();
+
+  try {
+    const resp = await this.onfetchData(sInput);
+
     chatModel.setResult(resp);
- //   chatModel.setbusyIndicator(false);
-    Feedinp.setValue(null);
+    chatModel.setvisibleResult(true);
     console.log(resp);
-    })
-    //  const sResponse =
-    //    '<html>\n<body>\n<h2>Top 5 Earning Items Summary</h2>\n\n<table border="1">\n  <tr>\n    <th>Item</th>\n    <th>Revenue (million)</th>\n    <th>Profit before tax (million)</th>\n    <th>Total assets (million)</th>\n  </tr>\n  <tr>\n    <td><strong>1. Total Corporate & Investment Banking</strong></td>\n    <td>$196,823</td>\n    <td>$118,106</td>\n    <td>$363,909</td>\n  </tr>\n  <tr>\n    <td><strong>2. Total Group</strong></td>\n    <td>$420,117</td>\n    <td>$193,115</td>\n    <td>$581,841</td>\n  </tr>\n  <tr>\n    <td><strong>3. Oil & Gas industry</strong></td>\n    <td>$7,421</td>\n    <td>$7,928</td>\n    <td>$21,440</td>\n  </tr>\n  <tr>\n    <td><strong>4. Commercial Real Estate</strong></td>\n    <td>$7,635</td>\n    <td>$2,758</td>\n    <td>$7,677</td>\n  </tr>\n  <tr>\n    <td><strong>5. Power industry</strong></td>\n    <td>$6,341</td>\n    <td>$4,538</td>\n    <td>$10,503</td>\n  </tr>\n</table>\n\n<h3>Key Points:</h3>\n<ul>\n<li>Corporate & Investment Banking and Total Group are the top earners by a significant margin</li>\n<li>Among industries, Oil & Gas, Commercial Real Estate, and Power are the highest earning sectors</li>\n<li>Data is sourced exclusively from non-transcript contexts as required</li>\n<li>Confidence is high for the reported figures, as they come directly from financial tables</li>\n<li>Some contextual information (e.g. year, specific segment breakdowns) is limited in the available non-transcript data</li>\n</ul>\n</body>\n</html>';
-
-  },
+  } catch (err) {
+    console.error("Chat fetch error:", err);
+    sap.m.MessageToast.show("Failed to get response.");
+  } finally {
+    oBusyDialog.close();
+    oView.setBusy(false);
+  }
+},
 
   /**
    * Copy the Agent Chat
    * @param {object} oEvent
    */
-  onChatCopy: function (oEvent) {
-    const oSource = oEvent?.getSource();
-    const aItems = oSource?.getParent().getParent().getItems();
-    if (aItems?.length > 0 && Array.isArray(aItems)) {
-      const message = aItems[0]?.getDomRef()?.innerText;
-      if (navigator?.clipboard && message) {
-        navigator?.clipboard
-          .writeText(message)
-          .then(function () {})
-          .catch(function (err) {
-            console.log("Failed to copy text.");
-          });
-      }
+  onChatCopy: function () {
+    const oChatBox = this.byId("ChatBotResult");
+    const domRef = oChatBox?.getDomRef();
+  
+    if (!domRef) {
+      sap.m.MessageToast.show("Nothing to copy");
+      return;
+    }
+  
+    const message = domRef.innerText;
+  
+    if (navigator?.clipboard && message) {
+      navigator.clipboard
+        .writeText(message)
+        .then(() => {
+          sap.m.MessageToast.show("Text copied to clipboard");
+        })
+        .catch((err) => {
+          console.error("Copy failed", err);
+          sap.m.MessageToast.show("Failed to copy text.");
+        });
     }
   },
 
@@ -189,28 +203,69 @@ sap.ui.define([
    * @param {object} oEvent
    * @param {object} controller
    */
-  onChatExport: async function (oEvent) {
-    const chatModel = this.getOwnerComponent().getModel("chatModel");
-    const message = chatModel.getProperty("/result");
-    if (message) {
-      // Create PDF document
-      var doc = new jspdf.jsPDF({
-        orientation: "portrait",
-        unit: "pt",
-        format: "a4",
-      });
+  // onChatExport: async function (oEvent) {
+  //   const chatModel = this.getOwnerComponent().getModel("chatModel");
+  //   const message = chatModel.getProperty("/result");
+  //   if (message) {
+  //     // Create PDF document
+  //     var doc = new jspdf.jsPDF({
+  //       orientation: "portrait",
+  //       unit: "pt",
+  //       format: "a4",
+  //     });
 
-      // Sanitize the HTML using DOMPurify
-      var sanitizedHTML = DOMPurify.sanitize(message);
-      await doc.html(sanitizedHTML, {
-        width: 580,
-        windowWidth: 580,
-        margin: 15,
+  //     // Sanitize the HTML using DOMPurify
+  //     var sanitizedHTML = DOMPurify.sanitize(message);
+  //     await doc.html(sanitizedHTML, {
+  //       width: 580,
+  //       windowWidth: 580,
+  //       margin: 15,
+  //     });
+  //     await doc.save();
+  //   }
+  // },
+  
+  onChatExport: async function () {
+    const oChatBox = this.byId("ChatBotResult");
+    const domRef = oChatBox?.getDomRef();
+  
+    if (!domRef) {
+      sap.m.MessageToast.show("No content to export");
+      return;
+    }
+  
+    const { jsPDF } = window.jspdf;
+  
+    // Add export-friendly styles
+    domRef.classList.add("exporting");
+  
+    try {
+      const canvas = await html2canvas(domRef, {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+        windowWidth: domRef.scrollWidth
       });
-      await doc.save();
+  
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "pt", "a4");
+  
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("summary.pdf");
+  
+      sap.m.MessageToast.show("PDF exported successfully");
+    } catch (err) {
+      console.error("PDF generation failed", err);
+      sap.m.MessageToast.show("Failed to export PDF");
+    } finally {
+      // Clean up
+      domRef.classList.remove("exporting");
     }
   },
-  
+
  onGenEmbeddings: async function(){
 
   const chatModel = this.getOwnerComponent().getModel("chatModel");

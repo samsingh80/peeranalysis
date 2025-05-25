@@ -266,7 +266,7 @@ sap.ui.define([
 
   const embeddingUrl = "https://EarningsAIAssistantUI5-noisy-numbat-gk.cfapps.ap11.hana.ondemand.com/api/generate-embeddings";
   const csrfUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/";
-  const csrf = await this.onfetchCSRF(csrfUrl);
+  //const csrf = await this.onfetchCSRF(csrfUrl);
 
   if (aSelectedItems.length === 0) {
     sap.m.MessageToast.show("Please select at least one file.");
@@ -288,8 +288,8 @@ sap.ui.define([
       await fetch(fileUrl, {
         method: "PATCH",
         headers: {
-         "X-CSRF-Token": csrf,
-          "Content-Type": "application/json"
+     //    "X-CSRF-Token": csrf,
+         "Content-Type": "application/json"
         },
         credentials: "include",
         body: JSON.stringify({ status: "Approved" })
