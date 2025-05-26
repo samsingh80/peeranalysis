@@ -235,8 +235,6 @@ sap.ui.define([
     }
   
     const { jsPDF } = window.jspdf;
-  
-    // Add export-friendly styles
     domRef.classList.add("exporting");
   
     try {
@@ -248,20 +246,38 @@ sap.ui.define([
       });
   
       const imgData = canvas.toDataURL("image/png");
+  
       const pdf = new jsPDF("p", "pt", "a4");
-  
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      const pdfHeight = pdf.internal.pageSize.getHeight();
   
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+  
+      const imgHeight = (pdfWidth * canvasHeight) / canvasWidth;
+  
+      let heightLeft = imgHeight;
+      let position = 0;
+  
+      // First page
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+  
+      // More pages if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+  
       pdf.save("summary.pdf");
-  
       sap.m.MessageToast.show("PDF exported successfully");
+  
     } catch (err) {
       console.error("PDF generation failed", err);
       sap.m.MessageToast.show("Failed to export PDF");
     } finally {
-      // Clean up
       domRef.classList.remove("exporting");
     }
   },

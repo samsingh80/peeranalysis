@@ -17,31 +17,31 @@
                 <Button icon="sap-icon://upload" text="Upload All" press="onUploadFileContent"/>
             </HBox>
 
-            <sfb:SmartFilterBar
-                id="smartFilterBar"
-                entitySet="EmbeddingFiles"
-                persistencyKey="SmartFilterBarFiles"
-                enableBasicSearch="true"
-                basicSearchFieldName="status"
-                showClearOnFB="true"
-                showFilterConfiguration="true"
-                useToolbar="true"
-                
-               >
-           
-                
-                <sfb:customData>
-                    <core:CustomData key="preselectionDefaults" value='{"status": "Completed"}' />
-                </sfb:customData>
-                
-            </sfb:SmartFilterBar>
-
+<HBox class="sapUiSmallMarginTop" justifyContent="Start" alignItems="Start" wrap="Wrap">
+    <VBox>
+   
+        <sfb:SmartFilterBar
+            id="smartFilterBar"
+            entitySet="EmbeddingFiles"
+            persistencyKey="SmartFilterBarFiles"
+            enableBasicSearch="true"
+            basicSearchFieldName="fileName"
+            showClearOnFB="true"
+            showFilterConfiguration="true"
+            useToolbar="false"
+            useVariantManagement="false">
+            <sfb:customData>
+                <core:CustomData key="preselectionDefaults" value='{"status": "Completed"}' />
+            </sfb:customData>
+        </sfb:SmartFilterBar>
+    </VBox>
+</HBox>
             <smartTable:SmartTable
                 id="smartTable"
                 tableType="ResponsiveTable"
                 entitySet="EmbeddingFiles"
                 smartFilterId="smartFilterBar"
-                useVariantManagement="true"
+                useVariantManagement="false"
                 useTablePersonalisation="true"
                 enableAutoBinding="true"
                 header="Uploaded Files"

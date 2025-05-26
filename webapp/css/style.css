@@ -560,4 +560,12 @@ body, .sapMText, .sapMTitle {
 .exporting .sapMText {
   font-size: 1rem !important;
 }
-  
+
+.searchWrapper .sapMLabel {
+  line-height: 5.5rem; /* vertically align with input */
+  font-weight: bold;
+}
+
+.searchWrapper .sapUiSmallMarginEnd {
+  margin-right: 0.75rem;
+}

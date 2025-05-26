@@ -86,6 +86,7 @@ sap.ui.define([
             });
             
           },
+
       onBeforeRebindTable: function (oEvent) {
         var oBindingParams = oEvent.getParameter("bindingParams");
         var oTable = oEvent.getSource().getTable();
