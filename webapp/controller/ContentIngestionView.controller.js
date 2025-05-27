@@ -133,11 +133,12 @@ sap.ui.define([
         const oModel = this.getView().getModel();
         oModel.refresh(true);
         const oTable = this.byId("smartTable");
+        oTable.rebindTable(true);
         const oInnerTable = oTable.getTable();
         if (oInnerTable){
           const oBinding = oInnerTable.getBinding("rows") || oInnerTable.getBinding("items");
           if (oBinding) {
-            oBinding.refresh();
+            oBinding.refresh(true);
         }
 
         }
@@ -263,11 +264,12 @@ sap.ui.define([
   const oModel = this.getView().getModel();
   const oView = this.getView();
   const baseUrl = this.getBaseURL();
+  let oCtx;
   let busyDialogTxt = " ";
 
   const embeddingUrl = "https://EarningsAIAssistantUI5-noisy-numbat-gk.cfapps.ap11.hana.ondemand.com/api/generate-embeddings";
   const csrfUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/";
-  //const csrf = await this.onfetchCSRF(csrfUrl);
+  const csrf = await this.onfetchCSRF(csrfUrl);
 
   if (aSelectedItems.length === 0) {
     sap.m.MessageToast.show("Please select at least one file.");
@@ -281,7 +283,7 @@ sap.ui.define([
 
   // Step 1: Update status of each file to "Approved"
   for (const oItem of aSelectedItems) {
-    const oCtx = oItem.getBindingContext();
+   oCtx  = oItem.getBindingContext();
     const fileId = oCtx.getProperty("ID");
     const fileUrl = `${baseUrl}/v2/odata/v4/earning-upload-srv/EmbeddingFiles/${fileId}`;
    
@@ -289,7 +291,7 @@ sap.ui.define([
       await fetch(fileUrl, {
         method: "PATCH",
         headers: {
-     //    "X-CSRF-Token": csrf,
+         "X-CSRF-Token": csrf,
          "Content-Type": "application/json"
         },
         credentials: "include",
@@ -297,6 +299,7 @@ sap.ui.define([
       });
 
       oModel.setProperty(oCtx.getPath() + "/status", "Approved");
+      // oTable.removeSelection(oTable.indexOfItem(oItem));
       successList.push(fileId);
     } catch (error) {
       console.error(`Approval failed for file ${fileId}:`, error);
@@ -329,7 +332,10 @@ sap.ui.define([
         sap.m.MessageToast.show(restResponse.status);
         throw new Error(`REST call failed with status ${restResponse.status}`);
       }else{
+        await this._readEntitySetAsync(this.getView().getModel(), "/EmbeddingFiles");
         this.onTableRefresh();
+        oModel.setProperty(oCtx.getPath() + "/status", "Completed");
+
     //     await this._readEntitySetAsync(this.getView().getModel(), "/EmbeddingFiles");
     //     const oEmbTable = this.byId("smartTable");
     //     oEmbTable.rebindTable();
