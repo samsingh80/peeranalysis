@@ -15,11 +15,11 @@
       "authenticationType": "xsuaa",
       "destination": "peeranalysis"
     },
-
     {
       "source": "^/api/(.*)$",
-      "destination": "earningsai",
-      "csrfProtection": false
+      "target": "/api/$1",
+      "authenticationType": "xsuaa",
+      "destination": "EARNINGS_CORE"
     },
     {
       "source": "^/user-api/currentUser$",

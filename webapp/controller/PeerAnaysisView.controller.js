@@ -109,27 +109,46 @@ sap.ui.define([
         });
     }
   },
-
+  
+  onfetchCSRF: async function(url){
+    const response = await fetch(url, {
+      method: "HEAD",
+      credentials: "include",
+      headers: {
+          "X-CSRF-Token": "Fetch"
+      }
+  });
+  const token = response.headers.get("X-CSRF-Token");
+  if (!token) {
+      throw new Error("Failed to fetch CSRF token");
+  }
+  return token;
+  }, 
   onfetchData: async function (sInput) {
+     const chatUrl =  this.getBaseURL() + "/v2/odata/v4/earning-upload-srv/chatResponse";
+     const csrfUrl = this.getBaseURL() + "/v2/odata/v4/earning-upload-srv/";
+     const csrf = await this.onfetchCSRF(csrfUrl);
 
-    const url = "https://EarningsAIAssistantUI5-noisy-numbat-gk.cfapps.ap11.hana.ondemand.com/api/chat";
+   // const url = "https://EarningsAIAssistantUI5-noisy-numbat-gk.cfapps.ap11.hana.ondemand.com/api/chat";
+
 
     try {
-        const response = await fetch(url, {
+        let response = await fetch(chatUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ "message": sInput })
+            headers: { 
+              "X-CSRF-Token":csrf,
+              "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: sInput , token: csrf})
         });
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const data = await response.json();
-        const sResponse = data.result;  // ✅ Store API response in a variable
+        const sResponse = data.d.chatResponse.result;  // ✅ Store API response in a variable
         console.log("API Response:", sResponse);
         return sResponse;
-        
+
 
         // Optional: Store result in SAPUI5 JSONModel
         // var oModel = new sap.ui.model.json.JSONModel({ apiResult: sResponse });
@@ -169,8 +188,6 @@ sap.ui.define([
   }
 
 
-
-    
   },
 
   getBaseURL: function () {

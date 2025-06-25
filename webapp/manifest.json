@@ -124,12 +124,21 @@
           "pattern": "Reports",
           "name": "Reports",
           "target": "ReportsView"
+        },
+        {
+          "pattern": "Onboard",
+          "name": "Onboard",
+          "target": "OnboardView"
         }
       ],
       "targets": {
         "TargetPeerAnaysisView": {
           "id": "PeerAnaysisView",
           "name": "PeerAnaysisView"
+        },
+        "OnboardView": {
+          "id": "OnboardView",
+          "name": "OnboardView"
         },
         "ContentIngestionView": {
           "id": "ContentIngestionView",

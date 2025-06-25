@@ -57,12 +57,14 @@ sap.ui.define([
                   const oCtx = oItem.getBindingContext();
                   const status = oCtx?.getProperty("status");
           
-                  if (status !== "Submitted") {
+                  if (status === "Submitted" || status === "Failed" ) {
+                   
+                    oItem.data("selectable", true);
+                    oItem.setType("Active")
+                  } else {
                     oItem.addStyleClass("nonSelectableRow");
                     oItem.data("selectable", false);
-                  } else {
-                    oItem.data("selectable", true);
-                    oItem.setType("Active");
+                   ;
                   }
                 });
               });
@@ -97,8 +99,8 @@ sap.ui.define([
             oTable.getItems().forEach(function (oItem) {
                 const oContext = oItem.getBindingContext();
                 const status = oContext?.getProperty("status");
-                if (status !== "Submitted") {
-                    oItem.data("selectable", false);
+                if (status === "Submitted" || status === "Failed" ) {
+                    oItem.data("selectable", true);
                 }
     
             });
@@ -267,9 +269,11 @@ sap.ui.define([
   let oCtx;
   let busyDialogTxt = " ";
 
-  const embeddingUrl = "https://EarningsAIAssistantUI5-noisy-numbat-gk.cfapps.ap11.hana.ondemand.com/api/generate-embeddings";
+  const embeddingUrl =  baseUrl + "/v2/odata/v4/earning-upload-srv/generateEmbedding";
   const csrfUrl = baseUrl + "/v2/odata/v4/earning-upload-srv/";
   const csrf = await this.onfetchCSRF(csrfUrl);
+  const emb_csrfUrl = baseUrl + "/api/get-csrf-token";
+ // const embcsrf = await this.onfetchCSRF(emb_csrfUrl);
 
   if (aSelectedItems.length === 0) {
     sap.m.MessageToast.show("Please select at least one file.");
@@ -308,6 +312,7 @@ sap.ui.define([
   }
 
  
+ 
 
   // Step 2: Call downstream API only if all PATCHes succeeded
   if (failedList.length === 0) {
@@ -317,17 +322,15 @@ sap.ui.define([
       text: busyDialogTxt
     });
     oBusyDialog.open();
-
+  
     try {
-      const restResponse = await fetch(embeddingUrl, {
+     let restResponse =  await fetch(embeddingUrl, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+         "X-CSRF-Token": csrf,
+         "Content-Type": "application/json"
         }
       });
-
-
-
       if (!restResponse.ok) {
         sap.m.MessageToast.show(restResponse.status);
         throw new Error(`REST call failed with status ${restResponse.status}`);
@@ -336,12 +339,13 @@ sap.ui.define([
         this.onTableRefresh();
         oModel.setProperty(oCtx.getPath() + "/status", "Completed");
 
+
     //     await this._readEntitySetAsync(this.getView().getModel(), "/EmbeddingFiles");
     //     const oEmbTable = this.byId("smartTable");
     //     oEmbTable.rebindTable();
     // //    this.getView().getController().onInit();
     //     oBusyDialog.close();
-    //        sap.m.MessageBox.success(`${successList.length} file(s) approved and embeddings generated.`);
+            sap.m.MessageBox.success(`${successList.length} file(s) approved and embeddings generated.`);
     //        const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
     //        oRouter.navTo("ContentIngestionView",{},true);
 

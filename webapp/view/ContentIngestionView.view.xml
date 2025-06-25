@@ -25,11 +25,10 @@
             entitySet="EmbeddingFiles"
             persistencyKey="SmartFilterBarFiles"
             enableBasicSearch="true"
-            basicSearchFieldName="fileName"
             showClearOnFB="true"
             showFilterConfiguration="true"
             useToolbar="false"
-            useVariantManagement="false">
+         >
             <sfb:customData>
                 <core:CustomData key="preselectionDefaults" value='{"status": "Completed"}' />
             </sfb:customData>

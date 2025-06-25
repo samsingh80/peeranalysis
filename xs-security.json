@@ -11,10 +11,10 @@
   ],
   "role-templates": [
     {
-      "name": "T_SCB_EFDNA_GenAI_Earnings_Maker",
+      "name": "Workzone_EFDNA_GenAI_Earnings_Maker",
       "scope-references": ["$XSAPPNAME.scopeforview"]
   },{
-      "name": "T_SCB_EFDNA_GenAI_Earnings_Checker",
+      "name": "Workzone_EFDNA_GenAI_Earnings_Checker",
       "scope-references": ["$XSAPPNAME.scopeformanage"]
   }
   ]

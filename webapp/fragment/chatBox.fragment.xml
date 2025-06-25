@@ -6,6 +6,7 @@
 
  
   <VBox class="ChatBox dasTextAreaInput"  >
+    <Title text="Which results should I analyze?" level="H4" class="gradientTitle sapUiSmallMarginTop sapUiTinyMarginBottom"/>
       <FlexBox id="ChatBotresult" height="5rem" >
 
         <TextArea id="chatFeedInput" width="96%" height="500px" class="chattextarea" liveChange="userlivechange"  value="{chatModel>/userMessage}" enabled="{= !${chatModel>/busyIndicator} }" rows="1" growingMaxLines="23" placeholder="{chatModel>/placeHolder}" growing="true">

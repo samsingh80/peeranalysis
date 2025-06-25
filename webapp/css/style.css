@@ -7,7 +7,14 @@
     color: #007aff !important;
   }
   
-  
+  .gradientTitle {
+    text-align: center;
+    width: 100%;
+    color: #0070f2;
+    font-weight: bold;
+    display: block;
+
+  }
   
   .sapUiSizeCompact .sapMBtnInner.sapMBtnText {
     background-color: #007aff !important;
